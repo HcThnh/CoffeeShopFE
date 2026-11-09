@@ -4,6 +4,9 @@ import UserFeedBack from './UserFeedBack';
 import { LoaderCircle, CircleX, Star } from 'lucide-react';
 import HeaderHomePage from './UserHeaderHP';
 import FooterPage from "./UserFooter.jsx";
+import { getProductImageUrl } from "./productImage";
+
+const fallbackProductImage = "/coffee.jpg";
 
 function UserProduct() {
     const [error, seterror] = useState("");
@@ -113,8 +116,14 @@ function UserProduct() {
                                                         setIsOpenDetail(true);
                                                     }}>
                                                     <div className="aspect-square overflow-hidden rounded-xl border-2 border-gray-200">
-                                                        <img src="/coffee.jpg" alt="sample-image"
-                                                            className="w-full object-cover
+                                                        <img
+                                                            src={getProductImageUrl(item, fallbackProductImage)}
+                                                            alt={item.images?.find((image) => image?.primary)?.altText || item.name}
+                                                            onError={(event) => {
+                                                                event.currentTarget.onerror = null;
+                                                                event.currentTarget.src = fallbackProductImage;
+                                                            }}
+                                                            className="w-full h-full object-cover
                                                             group-hover:scale-105 transition-transform duration-200"/>
                                                     </div>
 

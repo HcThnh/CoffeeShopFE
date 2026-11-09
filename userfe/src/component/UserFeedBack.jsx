@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { X, Star, CircleX, LoaderCircle } from 'lucide-react';
+import { getProductImageUrl } from "./productImage";
+
+const fallbackProductImage = "/coffee.jpg";
 
 function UserFeedBack({ onClose, product }) {
     const getCurrentDate = () => {
@@ -100,7 +103,13 @@ function UserFeedBack({ onClose, product }) {
 
                 <div className="flex items-center gap-4 py-4 px-4 border-2 border-gray-100 rounded-2xl bg-stone-50/50">
                     <div className='w-16 h-16 rounded-xl overflow-hidden shrink-0 border border-gray-200'>
-                        <img src="/coffee.jpg" alt="sample-image"
+                        <img
+                            src={getProductImageUrl(product, fallbackProductImage)}
+                            alt={product.images?.find((image) => image?.primary)?.altText || product.name}
+                            onError={(event) => {
+                                event.currentTarget.onerror = null;
+                                event.currentTarget.src = fallbackProductImage;
+                            }}
                             className="w-full h-full object-cover" />
                     </div>
 

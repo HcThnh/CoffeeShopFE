@@ -4,6 +4,7 @@ import "../assets/css/Emp_OrderForm.css";
 import axios from "axios";
 
 import traSenVangImage from "../assets/img/tra-sen-vang.svg";
+import { getProductImageUrl } from "./productImage";
 import { useRef, useMemo } from "react";
 import { LoaderCircle, CircleCheck, X, ShoppingBag } from "lucide-react";
 
@@ -185,8 +186,12 @@ const Emp_OrderForm = () => {
                   <div>
                     <div className="relative w-full aspect-square rounded-xl overflow-hidden bg-gray-50 mb-3">
                       <img 
-                        src={traSenVangImage} 
-                        alt={product.name} 
+                        src={getProductImageUrl(product, traSenVangImage)}
+                        alt={product.images?.find((image) => image?.primary)?.altText || product.name}
+                        onError={(event) => {
+                          event.currentTarget.onerror = null;
+                          event.currentTarget.src = traSenVangImage;
+                        }}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
                       />
                     </div>
